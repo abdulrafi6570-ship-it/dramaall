@@ -193,7 +193,8 @@ export default function Navbar({ session, categories = [] }) {
               className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition"
             >
               <Avatar
-                size={28}
+                size={32}
+                className="border-2 border-border"
                 alt={session.username}
                 src={session.avatar_url}
               />
@@ -213,14 +214,20 @@ export default function Navbar({ session, categories = [] }) {
             </button>
           </>
         ) : (
-          <Link href="/login">
-            <Button
-              size="sm"
-              as="span"
+          <div className="flex items-center gap-2">
+            <Link
+              href="/register"
+              className="hidden sm:inline-flex h-9 items-center rounded-xl border-[3px] border-border bg-card px-3.5 text-xs font-extrabold text-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 hover:bg-muted active:translate-y-0"
+            >
+              Daftar
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex h-9 items-center rounded-xl border-[3px] border-border bg-primary px-4 text-xs font-extrabold text-primary-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               Masuk
-            </Button>
-          </Link>
+            </Link>
+          </div>
         )}
 
       </div>
