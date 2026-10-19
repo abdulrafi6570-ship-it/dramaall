@@ -119,15 +119,15 @@ export default async function HomePage() {
   }));
 
   return (
-    <div className="space-y-8 sm:space-y-10 px-1 sm:px-0 pb-28 sm:pb-12 animate-fade-in">
+    <div className="space-y-8 sm:space-y-10 px-1 sm:px-0 pb-28 animate-fade-in">
       {/* Banner Pengumuman Berjalan */}
       <RunningAnnouncement />
 
       {/* Baris Tombol Cepat ke Mode FYP & Request Klip */}
-      <div className="flex flex-wrap items-center justify-end gap-2.5">
+      <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:justify-end">
         <Link
           href="/requests"
-          className="inline-flex items-center gap-2 rounded-2xl border-[3px] border-border bg-card px-3.5 py-2 text-xs sm:text-sm font-extrabold text-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 hover:bg-muted active:translate-y-0"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-border bg-card px-3.5 py-2 text-xs sm:text-sm font-extrabold text-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 hover:bg-muted active:translate-y-0"
         >
           <MessageSquarePlus size={16} className="text-primary" />
           <span>Request Klip</span>
@@ -135,7 +135,7 @@ export default async function HomePage() {
 
         <Link
           href="/fyp"
-          className="inline-flex items-center gap-2 rounded-2xl border-[3px] border-border bg-secondary px-4 py-2 text-xs sm:text-sm font-extrabold text-secondary-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-border bg-secondary px-4 py-2 text-xs sm:text-sm font-extrabold text-secondary-foreground shadow-neo-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
         >
           <Film size={16} className="text-primary" />
           <span>Mode FYP Klip</span>
