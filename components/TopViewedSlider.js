@@ -31,71 +31,86 @@ export default function TopViewedSlider({ items = [] }) {
       onMouseLeave={() => setPaused(false)}
       className="relative overflow-hidden rounded-3xl border-[3px] border-border bg-card shadow-neo"
     >
-      <div className="relative h-[220px] sm:h-[290px] w-full bg-black overflow-hidden">
-        {/* Background Visual (Poster / Thumbnail / Preview Video) */}
+      <div className="relative h-[280px] sm:h-[340px] w-full overflow-hidden bg-black">
+        {/* Latar: poster yang sama, diburamkan, mengisi seluruh banner */}
         {activeItem.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            key={activeItem.id}
+            key={`bg-${activeItem.id}`}
             src={activeItem.image}
-            alt={activeItem.title}
-            className="h-full w-full object-cover opacity-80 transition-all duration-500 scale-105"
-          />
-        ) : activeItem.video_url ? (
-          <video
-            key={activeItem.id}
-            src={activeItem.video_url}
-            muted
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover opacity-80"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full scale-125 object-cover opacity-60 blur-2xl"
           />
         ) : (
-          <div className="h-full w-full bg-gradient-to-br from-primary/40 via-secondary/40 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-secondary/40 to-black" />
         )}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-black/60" />
 
-        {/* Gradasi Gelap agar Teks Jelas */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
-
-        {/* Badge Peringkat & Jumlah Penonton di Kiri Atas */}
-        <div className="absolute top-3.5 left-4 right-4 flex flex-wrap items-center justify-between gap-2 z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-border bg-highlight px-3 py-1 text-xs font-extrabold text-highlight-foreground shadow-neo-sm">
-            <Flame size={14} className="fill-current" />
-            <span>#{current + 1} Paling Banyak Ditonton</span>
+        {/* Badge Peringkat & Jumlah Penonton */}
+        <div className="absolute left-3 right-3 top-3 z-10 flex items-center justify-between gap-2 sm:left-4 sm:right-4 sm:top-3.5">
+          <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full border-2 border-border bg-highlight px-2.5 py-1 text-[11px] font-extrabold text-highlight-foreground shadow-neo-sm sm:px-3 sm:text-xs">
+            <Flame size={14} className="shrink-0 fill-current" />
+            <span className="truncate">#{current + 1} Paling Banyak Ditonton</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/30 bg-black/60 px-3 py-1 text-xs font-extrabold text-white backdrop-blur-md">
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 border-white/30 bg-black/60 px-2.5 py-1 text-[11px] font-extrabold text-white backdrop-blur-md sm:px-3 sm:text-xs">
             <Eye size={14} className="text-primary" />
-            <span>{activeItem.views}x ditonton</span>
+            <span>{activeItem.views}x</span>
+            <span className="hidden sm:inline">ditonton</span>
           </span>
         </div>
 
-        {/* Informasi Klip & Tombol Tonton di Bawah */}
-        <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-          <div className="space-y-1 min-w-0 max-w-lg text-white">
-            {activeItem.dramaTitle && (
-              <div className="inline-flex items-center gap-1 text-xs font-bold text-primary-foreground bg-primary/90 px-2.5 py-0.5 rounded-md border border-border">
-                <Film size={12} />
-                <span className="truncate">{activeItem.dramaTitle}</span>
+        {/* Isi: poster utuh (tidak dipotong) di kiri, info di kanan */}
+        <div className="relative z-10 flex h-full items-center gap-3 px-11 pb-5 pt-14 sm:gap-8 sm:px-20 sm:pb-6 sm:pt-16">
+          <div className="flex h-full shrink-0 items-center">
+            {activeItem.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={activeItem.id}
+                src={activeItem.image}
+                alt={activeItem.title}
+                className="h-full max-w-[30vw] rounded-xl border-[3px] border-border bg-black/40 object-contain shadow-neo sm:max-w-[300px]"
+              />
+            ) : activeItem.video_url ? (
+              <video
+                key={activeItem.id}
+                src={activeItem.video_url}
+                muted
+                playsInline
+                preload="metadata"
+                className="h-full max-w-[30vw] rounded-xl border-[3px] border-border bg-black/40 object-contain shadow-neo sm:max-w-[300px]"
+              />
+            ) : (
+              <div className="grid h-full aspect-[2/3] place-items-center rounded-xl border-[3px] border-border bg-black/50 text-white/60">
+                <Film size={32} />
               </div>
-            )}
-            <h2 className="text-lg sm:text-2xl font-extrabold truncate drop-shadow-md">
-              {activeItem.title}
-            </h2>
-            {activeItem.description && (
-              <p className="text-xs text-white/80 line-clamp-1">
-                {activeItem.description}
-              </p>
             )}
           </div>
 
-          <Link
-            href={activeItem.href}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl border-[3px] border-border bg-primary px-4 py-2.5 text-xs sm:text-sm font-extrabold text-primary-foreground shadow-neo-sm transition-transform hover:-translate-y-0.5 active:translate-y-0"
-          >
-            <Play size={16} fill="currentColor" />
-            <span>Tonton Klip</span>
-          </Link>
+          <div className="flex min-w-0 flex-1 flex-col items-start justify-center gap-2 text-white sm:gap-3">
+            {activeItem.dramaTitle && (
+              <div className="inline-flex max-w-full items-center gap-1 rounded-md border border-border bg-primary/90 px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
+                <Film size={12} className="shrink-0" />
+                <span className="truncate">{activeItem.dramaTitle}</span>
+              </div>
+            )}
+            <h2 className="line-clamp-3 text-base font-extrabold leading-tight drop-shadow-md sm:line-clamp-2 sm:text-3xl">
+              {activeItem.title}
+            </h2>
+            {activeItem.description && (
+              <p className="hidden text-sm text-white/80 line-clamp-2 sm:block">
+                {activeItem.description}
+              </p>
+            )}
+            <Link
+              href={activeItem.href}
+              className="mt-1 inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-2xl border-[3px] border-border bg-primary px-3 py-2 text-xs font-extrabold text-primary-foreground shadow-neo-sm transition-transform hover:-translate-y-0.5 active:translate-y-0 sm:px-5 sm:py-2.5 sm:text-sm"
+            >
+              <Play size={16} fill="currentColor" />
+              <span>Tonton Klip</span>
+            </Link>
+          </div>
         </div>
 
         {/* Tombol Panah Kiri & Kanan */}
@@ -105,7 +120,7 @@ export default function TopViewedSlider({ items = [] }) {
               type="button"
               onClick={prevSlide}
               aria-label="Slide Sebelumnya"
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 grid h-9 w-9 place-items-center rounded-full border-2 border-border bg-card/90 text-foreground shadow-neo-sm hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-20 grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-full border-2 border-border bg-card/90 text-foreground shadow-neo-sm hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               <ChevronLeft size={18} />
             </button>
@@ -113,7 +128,7 @@ export default function TopViewedSlider({ items = [] }) {
               type="button"
               onClick={nextSlide}
               aria-label="Slide Berikutnya"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 grid h-9 w-9 place-items-center rounded-full border-2 border-border bg-card/90 text-foreground shadow-neo-sm hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-20 grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-full border-2 border-border bg-card/90 text-foreground shadow-neo-sm hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               <ChevronRight size={18} />
             </button>
