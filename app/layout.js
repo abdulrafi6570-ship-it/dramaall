@@ -7,6 +7,7 @@ import FeedbackButton from '../components/FeedbackButton';
 import { getSession } from '../lib/auth';
 import { getSettings } from '../lib/settings';
 import { recordLoginDay } from '../lib/streak';
+import { supabaseAdmin } from '../lib/supabaseAdmin';
 
 export const metadata = {
   title: 'DramaVers',
@@ -16,8 +17,18 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   const session = getSession();
 
+  // Sesi (JWT) tidak menyimpan foto profil, jadi ambil dari database untuk navbar
+  let navSession = session;
   if (session) {
     await recordLoginDay(session.id);
+    try {
+      const { data } = await supabaseAdmin()
+        .from('users')
+        .select('avatar_url')
+        .eq('id', session.id)
+        .maybeSingle();
+      navSession = { ...session, avatar_url: data?.avatar_url || null };
+    } catch {}
   }
 
   const settings = await getSettings([
@@ -28,7 +39,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="id">
       <body>
-        <SiteChrome session={session}>
+        <SiteChrome session={navSession}>
           {children}
         </SiteChrome>
 
